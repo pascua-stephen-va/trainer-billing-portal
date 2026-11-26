@@ -37,6 +37,7 @@ export interface BatchEntry {
   daysRendered: number;
   coveredFrom: string; // ISO YYYY-MM-DD
   coveredTo: string; // ISO YYYY-MM-DD
+  description: string;
   overridePriceEnabled: boolean;
   overridePrice: number;
 }
@@ -121,6 +122,7 @@ export interface BatchFeeBreakdown {
   daysRendered: number;
   hoursRendered: number;
   coveredLabel: string;
+  description: string;
   halvesMultiplier: number;
   isOverridden: boolean;
   unitRate: number;

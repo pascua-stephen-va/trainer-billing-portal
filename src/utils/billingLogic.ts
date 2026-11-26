@@ -428,6 +428,10 @@ export function calculateBillingTotals(
       daysRendered: batchDays,
       hoursRendered: calc.hoursRendered,
       coveredLabel: formatDateRange(batch.coveredFrom, batch.coveredTo),
+      description:
+        typeof batch.description === 'string'
+          ? batch.description
+          : TRANCHE_META[batch.tranche].competencyCoverage,
       halvesMultiplier: calc.halvesMultiplier,
       isOverridden: batch.overridePriceEnabled,
       unitRate: batch.overridePriceEnabled
@@ -518,6 +522,22 @@ export function suggestNextBatchNumber(batches: readonly BatchEntry[]): string {
   return String(maxNum + 1).padStart(2, '0');
 }
 
+export function resolveBatchDescriptionOnTrancheChange(
+  currentDescription: string | undefined,
+  previousTranche: TrancheId,
+  nextTranche: TrancheId
+): string {
+  const prevDefault = TRANCHE_META[previousTranche].competencyCoverage.trim();
+  const nextDefault = TRANCHE_META[nextTranche].competencyCoverage;
+  if (typeof currentDescription !== 'string') {
+    return nextDefault;
+  }
+  if (currentDescription.trim() === prevDefault) {
+    return nextDefault;
+  }
+  return currentDescription;
+}
+
 export function createBatchEntry(
   batches: readonly BatchEntry[],
   tranche: TrancheId,
@@ -533,6 +553,7 @@ export function createBatchEntry(
     daysRendered: meta.days,
     coveredFrom: last?.coveredFrom || meta.defaultCoveredFrom,
     coveredTo: last?.coveredTo || meta.defaultCoveredTo,
+    description: meta.competencyCoverage,
     overridePriceEnabled: false,
     overridePrice: calc.standardFee,
   };
@@ -562,6 +583,11 @@ export function cloneInvoiceToSecondHalf(source: BillingState): BillingState {
       daysRendered: secondMeta.days,
       coveredFrom: nextFrom,
       coveredTo: nextTo,
+      description: resolveBatchDescriptionOnTrancheChange(
+        b.description,
+        b.tranche,
+        'second'
+      ),
     };
   });
 
@@ -639,6 +665,7 @@ export function createDefaultBillingState(
         daysRendered: 9,
         coveredFrom: TRANCHE_META.first.defaultCoveredFrom,
         coveredTo: TRANCHE_META.first.defaultCoveredTo,
+        description: TRANCHE_META.first.competencyCoverage,
         overridePriceEnabled: false,
         overridePrice: 31500,
       },

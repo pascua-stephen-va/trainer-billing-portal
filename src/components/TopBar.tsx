@@ -8,12 +8,20 @@ export function TopBar({ onPrint }: TopBarProps) {
   return (
     <header className="no-print sticky top-0 z-40 border-b border-[var(--md-outline-variant)]/70 bg-[var(--md-surface)]/92 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-8 px-4 sm:px-6 lg:px-8">
-        {/* Zone 1: Single-line display wordmark */}
+        {/* Zone 1: Brand icon + single-line display wordmark */}
         <a
           href="#top"
-          className="font-display text-lg font-extrabold tracking-tight text-[var(--md-on-surface)] whitespace-nowrap shrink-0 m3-focus rounded-lg"
+          className="inline-flex items-center gap-2.5 font-display text-lg font-extrabold tracking-tight text-[var(--md-on-surface)] whitespace-nowrap shrink-0 m3-focus rounded-lg"
         >
-          Trainer Billing Portal
+          <span className="h-8 w-8 rounded-[10px] overflow-hidden shrink-0 shadow-xs ring-1 ring-[var(--md-outline-variant)]/50 bg-[#3b49df]">
+            <img
+              src="/src/assets/images/app_website_icon_1795669255964.jpg"
+              alt="Trainer Billing Portal icon"
+              referrerPolicy="no-referrer"
+              className="h-full w-full object-cover scale-[1.22]"
+            />
+          </span>
+          <span>Trainer Billing Portal</span>
         </a>
 
         {/* Zone 2: Clean single-line section links */}

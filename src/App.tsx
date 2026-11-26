@@ -31,6 +31,7 @@ import {
   formatBatchCodeList,
   formatPHP,
   getEffectiveInvoiceNumber,
+  resolveBatchDescriptionOnTrancheChange,
   resolveCohortTrancheMode,
 } from './utils/billingLogic';
 import { generateDemoQrDataUrl } from './utils/qrCanvas';
@@ -83,6 +84,10 @@ function migrateBillingState(
       daysRendered: bDays,
       coveredFrom: b.coveredFrom || TRANCHE_META[bTranche].defaultCoveredFrom,
       coveredTo: b.coveredTo || TRANCHE_META[bTranche].defaultCoveredTo,
+      description:
+        typeof b.description === 'string'
+          ? b.description
+          : TRANCHE_META[bTranche].competencyCoverage,
       overridePriceEnabled: Boolean(b.overridePriceEnabled),
       overridePrice:
         typeof b.overridePrice === 'number' && Number.isFinite(b.overridePrice)
@@ -201,6 +206,11 @@ export default function App() {
         ...b,
         tranche,
         daysRendered: meta.days,
+        description: resolveBatchDescriptionOnTrancheChange(
+          b.description,
+          b.tranche,
+          tranche
+        ),
         ...(prev.batches.length === 1 && idx === 0
           ? {
               coveredFrom: meta.defaultCoveredFrom,
@@ -241,11 +251,22 @@ export default function App() {
             : patch.tranche !== undefined
               ? TRANCHE_META[patch.tranche].days
               : b.daysRendered;
+        const nextDescription =
+          patch.description !== undefined
+            ? patch.description
+            : patch.tranche !== undefined
+              ? resolveBatchDescriptionOnTrancheChange(
+                  b.description,
+                  b.tranche,
+                  patch.tranche
+                )
+              : b.description;
         return {
           ...b,
           ...patch,
           tranche: nextTranche,
           daysRendered: nextDays,
+          description: nextDescription,
         };
       });
 

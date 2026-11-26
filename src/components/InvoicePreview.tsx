@@ -348,9 +348,12 @@ export function InvoicePreview({ state, totals }: InvoicePreviewProps) {
                           {batchFee.coveredLabel}
                         </span>
                       </div>
-                      {idx === 0 && totals.batchFees.length <= 2 && (
-                        <div className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                          {rowTrancheMeta.competencyCoverage}
+                      {batchFee.description.trim() !== '' && (
+                        <div
+                          data-testid={`preview-batch-description-${idx + 1}`}
+                          className="text-[11px] text-slate-500 mt-1 leading-relaxed whitespace-pre-line"
+                        >
+                          {batchFee.description}
                         </div>
                       )}
                     </td>

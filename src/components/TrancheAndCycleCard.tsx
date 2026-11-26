@@ -1,4 +1,4 @@
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, RotateCcw, Trash2 } from 'lucide-react';
 import type { BatchEntry, PaymentTermsId, TrancheId } from '../types/billing';
 import {
   BATCH_PREFIX,
@@ -274,6 +274,9 @@ export function TrancheAndCycleCard({
           {batches.map((batch, idx) => {
             const fullCode = formatBatchCode(batch.batchNumber);
             const batchCalc = calculateBatchStandardFee(ratePerHalf, batch.daysRendered);
+            const defaultDescription = TRANCHE_META[batch.tranche].competencyCoverage;
+            const isCustomDescription =
+              batch.description.trim() !== defaultDescription.trim();
             return (
               <div
                 key={batch.id}
@@ -369,6 +372,44 @@ export function TrancheAndCycleCard({
                     coveredFrom={batch.coveredFrom}
                     coveredTo={batch.coveredTo}
                     onChangeRange={(range) => onUpdateBatch(batch.id, range)}
+                  />
+                </div>
+
+                {/* Editable Per-Batch Competency / Service Description */}
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <label
+                      htmlFor={`batch-description-${batch.id}`}
+                      className="text-[11px] font-semibold text-[var(--md-on-surface-variant)]"
+                    >
+                      Batch Description / Competency Coverage
+                    </label>
+                    {isCustomDescription && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onUpdateBatch(batch.id, {
+                            description: defaultDescription,
+                          })
+                        }
+                        aria-label={`Reset description for Batch ${idx + 1} to ${TRANCHE_META[batch.tranche].shortLabel} default`}
+                        className="m3-focus inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold text-[var(--md-primary)] hover:bg-[var(--md-primary-container)]/60 transition-colors cursor-pointer"
+                      >
+                        <RotateCcw className="h-3 w-3" aria-hidden="true" />
+                        <span>Reset default</span>
+                      </button>
+                    )}
+                  </div>
+                  <textarea
+                    id={`batch-description-${batch.id}`}
+                    rows={2}
+                    value={batch.description}
+                    onChange={(e) =>
+                      onUpdateBatch(batch.id, { description: e.target.value })
+                    }
+                    placeholder={defaultDescription}
+                    aria-label={`Description for Batch ${idx + 1}`}
+                    className="w-full resize-y rounded-xl border border-[var(--md-outline-variant)] bg-[var(--md-surface-container-low)] px-3 py-2 text-xs leading-relaxed text-[var(--md-on-surface)] placeholder:text-[var(--md-on-surface-variant)]/60 outline-none focus:border-[var(--md-primary)] focus:ring-2 focus:ring-[var(--md-primary)]/20 transition-all"
                   />
                 </div>
 

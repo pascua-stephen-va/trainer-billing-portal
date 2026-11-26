@@ -19,6 +19,7 @@ import {
   getDayBlockStatus,
   getEffectiveInvoiceNumber,
   normalizeDateRange,
+  resolveBatchDescriptionOnTrancheChange,
   resolveCohortTrancheMode,
 } from './billingLogic';
 
@@ -52,6 +53,7 @@ test('staggered cohorts with per-batch tranches calculate exact fees and -MIX in
       daysRendered: 9,
       coveredFrom: '2026-11-13',
       coveredTo: '2026-11-24',
+      description: TRANCHE_META.second.competencyCoverage,
       overridePriceEnabled: false,
       overridePrice: 30000,
     },
@@ -62,6 +64,7 @@ test('staggered cohorts with per-batch tranches calculate exact fees and -MIX in
       daysRendered: 9,
       coveredFrom: '2026-11-16',
       coveredTo: '2026-11-26',
+      description: 'Custom Batch 05 description for administrative operations.',
       overridePriceEnabled: true,
       overridePrice: 28000,
     },
@@ -72,6 +75,7 @@ test('staggered cohorts with per-batch tranches calculate exact fees and -MIX in
       daysRendered: 18,
       coveredFrom: '2026-11-02',
       coveredTo: '2026-11-24',
+      description: TRANCHE_META.full.competencyCoverage,
       overridePriceEnabled: false,
       overridePrice: 60000,
     },
@@ -128,3 +132,45 @@ test('date range formatting, batch prefix, progress status, and PHP formatting',
   assert.equal(getDayBlockStatus(10, 'second', 9), 'active');
   assert.equal(formatPHP(107090), '₱107,090.00');
 });
+
+test('per-batch descriptions pass through calculateBillingTotals and preserve custom edits on tranche change', () => {
+  const state = createDefaultBillingState();
+  assert.equal(
+    state.batches[0].description,
+    TRANCHE_META.first.competencyCoverage
+  );
+
+  // Default description auto-updates when tranche changes
+  assert.equal(
+    resolveBatchDescriptionOnTrancheChange(
+      TRANCHE_META.first.competencyCoverage,
+      'first',
+      'second'
+    ),
+    TRANCHE_META.second.competencyCoverage
+  );
+
+  // Custom description is preserved when tranche changes
+  const customDesc = 'Custom Module 1 & Client Onboarding Workshop.';
+  assert.equal(
+    resolveBatchDescriptionOnTrancheChange(customDesc, 'first', 'second'),
+    customDesc
+  );
+
+  // Totals expose each batch's editable description independently
+  state.batches[0].description = customDesc;
+  const totals = calculateBillingTotals(state);
+  assert.equal(totals.batchFees[0].description, customDesc);
+
+  // Cloning to 2nd half preserves custom description, while default updates to 2nd half
+  const clonedCustom = cloneInvoiceToSecondHalf(state);
+  assert.equal(clonedCustom.batches[0].description, customDesc);
+
+  const freshDefault = createDefaultBillingState();
+  const clonedDefault = cloneInvoiceToSecondHalf(freshDefault);
+  assert.equal(
+    clonedDefault.batches[0].description,
+    TRANCHE_META.second.competencyCoverage
+  );
+});
+
