@@ -191,17 +191,42 @@
     margin: 10mm;
   }
 
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
   html, body {
     background: #ffffff !important;
     color: #0f172a !important;
     margin: 0 !important;
     padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
   .no-print {
     display: none !important;
+  }
+
+  .print-layout-root,
+  .print-main,
+  .print-grid,
+  .print-preview-wrapper,
+  #section-preview {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   .print-only-sheet {
@@ -214,6 +239,26 @@
     border: none !important;
     border-radius: 0 !important;
     background: #ffffff !important;
+    color: #0f172a !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .print-hero-grid {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 1.25rem !important;
+  }
+
+  .print-hero-left {
+    grid-column: span 7 / span 7 !important;
+    flex-direction: row !important;
+    border-right: 1px solid #d6dcf5 !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .print-hero-right {
+    grid-column: span 5 / span 5 !important;
   }
 
   .print-avoid-break {

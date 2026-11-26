@@ -576,11 +576,19 @@ export default function App() {
   };
 
   const handlePrint = () => {
+    const previousTitle = document.title;
+    document.title = `${effectiveInvoiceNumber} - Trainer Statement of Account`;
+    const restoreTitle = () => {
+      document.title = previousTitle;
+      window.removeEventListener('afterprint', restoreTitle);
+    };
+    window.addEventListener('afterprint', restoreTitle);
     window.print();
+    window.setTimeout(restoreTitle, 1500);
   };
 
   return (
-    <div id="top" className="min-h-screen flex flex-col">
+    <div id="top" className="print-layout-root min-h-screen flex flex-col">
       <TopBar onPrint={handlePrint} />
 
       {/* Workspace Sub-Toolbar (Program Context, Theme Switcher, History, Save Draft, Reset) */}
@@ -683,8 +691,8 @@ export default function App() {
       </div>
 
       {/* Main 12-Column Split Workspace */}
-      <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+      <main className="print-main mx-auto w-full max-w-[1440px] flex-1 px-4 sm:px-6 lg:px-8 py-6">
+        <div className="print-grid grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
           {/* LEFT COLUMN: Interactive Billing Controls (5 cols on desktop) */}
           <div
             className={`no-print lg:col-span-5 space-y-5 ${
@@ -766,7 +774,7 @@ export default function App() {
 
           {/* RIGHT COLUMN: Sticky Live A4 Statement of Account Preview (7 cols on desktop) */}
           <div
-            className={`lg:col-span-7 lg:sticky lg:top-20 ${
+            className={`print-preview-wrapper lg:col-span-7 lg:sticky lg:top-20 print:block print:static ${
               mobileTab === 'editor' ? 'hidden lg:block' : 'block'
             }`}
           >

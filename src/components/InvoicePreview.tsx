@@ -310,7 +310,7 @@ export function InvoicePreview({ state, totals }: InvoicePreviewProps) {
         </div>
 
         {/* 4. ITEMIZED BILLING TABLE */}
-        <div className="print-section-pad py-5 overflow-x-auto">
+        <div className="print-section-pad py-5 overflow-x-auto print:overflow-visible">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b-2 border-slate-200 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
@@ -423,9 +423,9 @@ export function InvoicePreview({ state, totals }: InvoicePreviewProps) {
           aria-label="Net Amount Payable and Remittance Details"
           className="print-avoid-break print-hero-card mt-2 rounded-[24px] bg-[#f3f5fc] border border-[#d6dcf5] p-5 sm:p-6"
         >
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+          <div className="print-hero-grid grid grid-cols-1 md:grid-cols-12 print:grid-cols-12 gap-6 items-stretch">
             {/* Left: Payee Bank / E-Wallet & Cropped QR Ph Square */}
-            <div className="md:col-span-7 flex flex-col sm:flex-row items-start justify-between gap-4 sm:border-r sm:border-[#d6dcf5] sm:pr-5">
+            <div className="print-hero-left md:col-span-7 print:col-span-7 flex flex-col sm:flex-row print:flex-row items-start justify-between gap-4 sm:border-r sm:border-[#d6dcf5] sm:pr-5 print:border-r print:border-[#d6dcf5] print:pr-5">
               <div className="flex-1 min-w-0 space-y-2.5">
                 <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#3b49df]">
                   <Building2 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
@@ -487,7 +487,7 @@ export function InvoicePreview({ state, totals }: InvoicePreviewProps) {
             </div>
 
             {/* Right: Totals Math & Hero Net Amount Payable */}
-            <div className="md:col-span-5 flex flex-col justify-between gap-4">
+            <div className="print-hero-right md:col-span-5 print:col-span-5 flex flex-col justify-between gap-4">
               <dl className="space-y-2 text-xs">
                 <div className="flex items-center justify-between gap-2">
                   <dt className="text-slate-600 font-medium whitespace-nowrap">
