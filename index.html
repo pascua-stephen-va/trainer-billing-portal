@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trainer Billing &amp; Invoice System | Virtual Assistant Services Level III</title>
+    <meta
+      name="description"
+      content="Material 3 Expressive billing and statement of account system for Virtual Assistant Services Level III trainers featuring 18-day split tranches, EWT calculations, tax-free reimbursements, multi-bank remittance, and smart QR Ph cropping."
+    />
+    <meta property="og:title" content="Trainer Billing & Invoice System" />
+    <meta
+      property="og:description"
+      content="Billing and statement of account portal for the 18-day / 54-hour Virtual Assistant Services Level III training program."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        try {
+          var stored = window.localStorage.getItem('va-l3-trainer-billing-theme-v1');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark = stored === 'dark' || (stored !== 'light' && prefersDark);
+          document.documentElement.classList.toggle('dark', isDark);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

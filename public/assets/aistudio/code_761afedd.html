@@ -1,0 +1,1008 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Billing &amp; Invoice Portal | Virtual Assistant Services Level III</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        @media print {
+            body {
+                background-color: white !important;
+                color: #0f172a !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-container {
+                box-shadow: none !important;
+                border: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0.5in !important;
+            }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="no-print bg-[#0F172A] text-white sticky top-0 z-40 border-b border-slate-800 shadow-md">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3.5">
+                <div class="bg-indigo-600/90 text-white p-2.5 rounded-xl shadow-inner border border-indigo-400/30 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-base sm:text-lg font-bold tracking-tight text-white">Trainer Billing Portal</h1>
+                        <span class="px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Active Session</span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-medium">Virtual Assistant Services Level III • 18-Day / 54-Hour Program</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+                <button type="button" onclick="saveDraft()" class="px-3.5 py-2 bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold rounded-lg border border-slate-700/80 hover:border-slate-600 transition-all duration-150 flex items-center gap-2 shadow-sm">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                    </svg>
+                    <span>Save Draft</span>
+                </button>
+                <button type="button" onclick="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-lg shadow-sm hover:shadow transition-all duration-150 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    <span>Print / Save PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Toast Notification Banner -->
+    <div id="toastBanner" class="no-print fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-slate-900/95 text-white backdrop-blur px-4 py-3 rounded-xl shadow-2xl border border-slate-700/80 flex items-center gap-3">
+            <span class="flex h-6 w-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold items-center justify-center text-xs">✓</span>
+            <span id="toastMessage" class="text-xs sm:text-sm font-medium">Action saved successfully</span>
+        </div>
+    </div>
+
+    <!-- Main Workspace Container -->
+    <main class="max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+
+            <!-- LEFT COLUMN: Interactive Billing Controls (5 Cols) -->
+            <div class="no-print lg:col-span-5 space-y-5">
+
+                <!-- CARD 1: Tranche Selection & Cycle Details -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/90 p-5 transition hover:border-slate-300">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-5 h-5 rounded-full bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-200">1</span>
+                            <h2 class="text-sm font-bold text-slate-900 tracking-tight">Select Billing Tranche (18-Day Cycle)</h2>
+                        </div>
+                        <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">54 Total Hrs</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-4 pl-7">Select payment installment milestone according to syllabus progress.</p>
+                    
+                    <!-- 3-Column Selectable Toggle Cards -->
+                    <div class="grid grid-cols-3 gap-2.5">
+                        <button type="button" id="btnTranche1" onclick="setTranche('first')" class="tranche-btn p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50/70 text-left transition-all duration-150 flex flex-col justify-between shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-700">1st Half</span>
+                                <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+                            </div>
+                            <span class="text-xs font-bold text-slate-900 mt-1.5">Days 1 – 9</span>
+                            <span class="text-[11px] text-slate-500 font-medium mt-0.5">9 Days (50%)</span>
+                        </button>
+
+                        <button type="button" id="btnTranche2" onclick="setTranche('second')" class="tranche-btn p-3 rounded-xl border-2 border-slate-200 bg-white hover:bg-slate-50 text-left transition-all duration-150 flex flex-col justify-between">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">2nd Half</span>
+                                <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+                            </div>
+                            <span class="text-xs font-bold text-slate-700 mt-1.5">Days 10 – 18</span>
+                            <span class="text-[11px] text-slate-500 font-medium mt-0.5">9 Days (50%)</span>
+                        </button>
+
+                        <button type="button" id="btnTrancheFull" onclick="setTranche('full')" class="tranche-btn p-3 rounded-xl border-2 border-slate-200 bg-white hover:bg-slate-50 text-left transition-all duration-150 flex flex-col justify-between">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Full Term</span>
+                                <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+                            </div>
+                            <span class="text-xs font-bold text-slate-700 mt-1.5">Days 1 – 18</span>
+                            <span class="text-[11px] text-slate-500 font-medium mt-0.5">18 Days (100%)</span>
+                        </button>
+                    </div>
+
+                    <!-- 2x2 Form Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-4 pt-4 border-t border-slate-100">
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Batch / Class Code</label>
+                            <div class="flex items-center border border-slate-300 rounded-lg overflow-hidden bg-white focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500">
+                                <span class="px-2.5 py-1.5 text-xs font-semibold text-slate-500 bg-slate-100 border-r border-slate-200 select-none whitespace-nowrap font-mono">VA-L3-2026-B</span>
+                                <input type="text" id="batchNumberInput" value="04" placeholder="04" oninput="updateInvoice()" class="w-full px-2 py-1.5 text-xs font-bold text-slate-800 outline-none font-mono">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Invoice Number (Date + Seq)</label>
+                            <div class="flex items-center gap-1.5">
+                                <input type="text" id="invoiceNumber" value="INV-20261123-01A" oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs font-semibold font-mono text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <button type="button" onclick="incrementInvoiceSeq()" title="Increment sequence for same day" class="px-2 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-bold whitespace-nowrap transition">
+                                    +1 #
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Covered Period (Dates)</label>
+                            <input type="text" id="coveredDates" value="Nov 2 – Nov 12, 2026" oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Invoice Issue Date</label>
+                            <input type="date" id="invoiceDate" onchange="syncInvoiceNumberWithDate()" class="w-full px-2.5 py-1.5 text-xs text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: Trainer & Institution Details -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/90 p-5 space-y-4 transition hover:border-slate-300">
+                    <div class="flex items-center gap-2">
+                        <span class="w-5 h-5 rounded-full bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-200">2</span>
+                        <h2 class="text-sm font-bold text-slate-900 tracking-tight">Trainer &amp; Institution Details</h2>
+                    </div>
+
+                    <!-- Trainer (Payee) Sub-section -->
+                    <div class="space-y-2.5 bg-slate-50/70 p-3.5 rounded-xl border border-slate-200/70">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-700">Trainer (Payee)</span>
+                            <span class="text-[10px] font-medium text-slate-400">Lead Competency Trainer</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <div class="sm:col-span-2">
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Trainer Full Name</label>
+                                <input type="text" id="trainerName" value="Maria Clara Santos, LPT" oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs font-semibold text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">TIN (Tax ID)</label>
+                                <input type="text" id="trainerTin" value="248-910-442-000" oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs font-mono text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Contact / Email</label>
+                                <input type="text" id="trainerContact" value="mcsantos.trainer@email.com" oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Training Institution / Client (Bill To) Sub-section -->
+                    <div class="space-y-2.5 bg-slate-50/70 p-3.5 rounded-xl border border-slate-200/70">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-700">Training Institution / Client (Bill To)</span>
+                            <span class="text-[10px] font-medium text-slate-400">Provider Academy</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <div class="sm:col-span-2">
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Training Center / Academy Name</label>
+                                <input type="text" id="clientName" value="Apex Digital Skills &amp; Tech Institute Inc." oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs font-medium text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Institution Address</label>
+                                <input type="text" id="clientAddress" value="4F TechHub Bldg., Commonwealth Ave., Quezon City, Metro Manila" oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs text-slate-700 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Attention / Coordinator</label>
+                                <input type="text" id="clientAttention" value="Engr. Roberto Reyes (Training Director)" oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs text-slate-700 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">No. of Trainees / Scholars</label>
+                                <input type="number" id="traineeCount" value="25" min="1" oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3: Training Rate & Line Items -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/90 p-5 space-y-4 transition hover:border-slate-300">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-5 h-5 rounded-full bg-indigo-50 text-indigo-700 font-bold text-xs flex items-center justify-center border border-indigo-200">3</span>
+                            <h2 class="text-sm font-bold text-slate-900 tracking-tight">Training Rate &amp; Line Items</h2>
+                        </div>
+                        <select id="currencySelect" onchange="updateInvoice()" class="text-xs font-bold bg-slate-100 border border-slate-300 rounded-lg px-2.5 py-1 text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="PHP">PHP (₱)</option>
+                            <option value="USD">USD ($)</option>
+                        </select>
+                    </div>
+
+                    <!-- 3-Column Rate Box -->
+                    <div class="grid grid-cols-3 gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Rate Basis</label>
+                            <select id="rateBasis" onchange="handleRateBasisChange()" class="w-full px-2 py-1.5 text-xs font-medium bg-white border border-slate-300 rounded-lg outline-none">
+                                <option value="daily">Per Day (3 hrs)</option>
+                                <option value="hourly">Per Hour</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Rate Amount</label>
+                            <input type="number" id="rateAmount" value="3500" min="0" step="50" oninput="updateInvoice()" class="w-full px-2 py-1.5 text-xs font-bold text-slate-800 bg-white border border-slate-300 rounded-lg outline-none font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Days Rendered</label>
+                            <input type="number" id="daysRendered" value="9" min="1" max="18" oninput="updateInvoice()" class="w-full px-2 py-1.5 text-xs font-bold text-slate-800 bg-white border border-slate-300 rounded-lg outline-none text-center">
+                        </div>
+                    </div>
+
+                    <!-- Reimbursements, Subscriptions & Allowances -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-[11px] font-bold uppercase tracking-wider text-slate-600">Reimbursements &amp; Subscriptions</label>
+                            <button type="button" onclick="addExtraItem()" class="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                                + Custom Item
+                            </button>
+                        </div>
+
+                        <!-- Quick-Add Pill Buttons -->
+                        <div class="flex flex-wrap gap-1.5 mb-2.5">
+                            <button type="button" onclick="addPresetItem('Zoom Pro Subscription (1 Month — Virtual Class Hosting)', 1, 950, true)" class="text-[10px] font-semibold px-2 py-1 rounded-md bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 transition">
+                                + Zoom Pro (1 Mo)
+                            </button>
+                            <button type="button" onclick="addPresetItem('Canva Pro / AI Tools Subscription (1 Month)', 1, 600, true)" class="text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">
+                                + Canva / VA Tools
+                            </button>
+                            <button type="button" onclick="addPresetItem('Internet &amp; Fiber Connectivity Allowance', 1, 1500, false)" class="text-[10px] font-semibold px-2 py-1 rounded-md bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">
+                                + Internet Allowance
+                            </button>
+                        </div>
+
+                        <!-- Dynamic Line Items Container -->
+                        <div id="extraItemsContainer" class="space-y-2"><div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1.5">
+                    <div class="grid grid-cols-12 gap-1.5 items-center">
+                        <input type="text" value="Zoom Pro Subscription (1 Month — Virtual Class Hosting)" oninput="updateExtraItem(1, 'description', this.value)" placeholder="Description" class="col-span-6 px-2 py-1 text-xs font-semibold bg-white border border-slate-300 rounded focus:ring-1 focus:ring-indigo-500 outline-none">
+                        <input type="number" value="1" min="1" oninput="updateExtraItem(1, 'qty', this.value)" placeholder="Qty" class="col-span-2 px-1.5 py-1 text-xs bg-white border border-slate-300 rounded text-center outline-none">
+                        <input type="number" value="950" min="0" oninput="updateExtraItem(1, 'rate', this.value)" placeholder="Rate" class="col-span-3 px-2 py-1 text-xs font-mono bg-white border border-slate-300 rounded text-right outline-none">
+                        <button type="button" onclick="removeExtraItem(1)" class="col-span-1 text-rose-500 hover:text-rose-700 font-bold text-center text-sm" title="Remove">×</button>
+                    </div>
+                    <div class="flex items-center justify-between gap-2 pt-0.5">
+                        <input type="text" value="Official Receipt / Subscription Ref #ZM-2026-8841 (Attached)" oninput="updateExtraItem(1, 'referenceNote', this.value)" placeholder="Receipt ref # or proof note..." class="flex-1 px-2 py-0.5 text-[10px] bg-white border border-slate-200 rounded text-slate-600 outline-none">
+                        <label class="inline-flex items-center gap-1 text-[10px] font-bold text-slate-700 cursor-pointer select-none whitespace-nowrap">
+                            <input type="checkbox" checked="" onchange="updateExtraItem(1, 'isReimbursement', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500">
+                            Reimb. (Tax-Free)
+                        </label>
+                    </div>
+                </div><div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1.5">
+                    <div class="grid grid-cols-12 gap-1.5 items-center">
+                        <input type="text" value="Internet &amp; Connectivity Allowance (1st Half - 9 Sessions)" oninput="updateExtraItem(2, 'description', this.value)" placeholder="Description" class="col-span-6 px-2 py-1 text-xs font-semibold bg-white border border-slate-300 rounded focus:ring-1 focus:ring-indigo-500 outline-none">
+                        <input type="number" value="1" min="1" oninput="updateExtraItem(2, 'qty', this.value)" placeholder="Qty" class="col-span-2 px-1.5 py-1 text-xs bg-white border border-slate-300 rounded text-center outline-none">
+                        <input type="number" value="1500" min="0" oninput="updateExtraItem(2, 'rate', this.value)" placeholder="Rate" class="col-span-3 px-2 py-1 text-xs font-mono bg-white border border-slate-300 rounded text-right outline-none">
+                        <button type="button" onclick="removeExtraItem(2)" class="col-span-1 text-rose-500 hover:text-rose-700 font-bold text-center text-sm" title="Remove">×</button>
+                    </div>
+                    <div class="flex items-center justify-between gap-2 pt-0.5">
+                        <input type="text" value="" oninput="updateExtraItem(2, 'referenceNote', this.value)" placeholder="Receipt ref # or proof note..." class="flex-1 px-2 py-0.5 text-[10px] bg-white border border-slate-200 rounded text-slate-600 outline-none">
+                        <label class="inline-flex items-center gap-1 text-[10px] font-bold text-slate-700 cursor-pointer select-none whitespace-nowrap">
+                            <input type="checkbox" onchange="updateExtraItem(2, 'isReimbursement', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500">
+                            Reimb. (Tax-Free)
+                        </label>
+                    </div>
+                </div></div>
+                        <p class="text-[10px] text-slate-400 mt-1.5">
+                            * Items checked <strong>Reimb. (Tax-Free)</strong> are reimbursed at 100% and bypassed from Withholding Tax.
+                        </p>
+                    </div>
+
+                    <!-- Expanded Withholding Tax (EWT) -->
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-4">
+                        <div>
+                            <label for="taxRate" class="text-xs font-bold text-slate-700">Expanded Withholding Tax (EWT)</label>
+                            <p class="text-[10px] text-slate-400">BIR Professional Withholding Deductions</p>
+                        </div>
+                        <select id="taxRate" onchange="updateInvoice()" class="px-2.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="0">0% (Tax Exempt / Sworn Declaration)</option>
+                            <option value="0.05">5% (Non-VAT Professional &lt; ₱3M)</option>
+                            <option value="0.10" selected="">10% (Standard Professional Fee)</option>
+                        </select>
+                    </div>
+
+                    <!-- Disbursement & InstaPay QR -->
+                    <div class="pt-3 border-t border-slate-100 space-y-2.5">
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Disbursement / Bank Details</label>
+                            <textarea id="paymentDetails" rows="2" oninput="updateInvoice()" class="w-full px-2.5 py-1.5 text-xs text-slate-800 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">Bank: BPI (Bank of the Philippine Islands) | Account Name: Maria Clara Santos | Account No.: 3089-1124-88 | GCash / InstaPay: 0917-555-0192</textarea>
+                        </div>
+
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <div class="flex items-center justify-between mb-1">
+                                <label class="text-xs font-bold text-slate-700">InstaPay / QR Ph Code</label>
+                                <button type="button" id="removeQrBtn" onclick="clearQrCode()" class="text-[11px] font-semibold text-rose-600 hover:text-rose-700">Remove QR</button>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mb-2">Upload or generate sample InstaPay QR for instant payment scanning by accounting.</p>
+                            <div class="flex items-center gap-2">
+                                <input type="file" id="qrUploadInput" accept="image/*" onchange="handleQrUpload(event)" class="text-xs text-slate-600 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[11px] file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer">
+                                <button type="button" onclick="loadSampleQr()" class="text-[10px] font-semibold text-indigo-600 hover:underline whitespace-nowrap">Load Demo QR</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: Print-Ready Statement of Account Sheet (7 Cols) -->
+            <div class="lg:col-span-7">
+                <div class="no-print flex items-center justify-between mb-3 px-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Live Statement of Account Preview</span>
+                    </div>
+                    <span id="trancheBadgePreview" class="text-xs font-bold px-3 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">1st Half (Days 1–9)</span>
+                </div>
+
+                <!-- Live A4-Style Invoice Sheet -->
+                <div id="invoiceSheet" class="print-container bg-white rounded-xl shadow-lg border border-slate-200/90 p-8 sm:p-10 text-slate-800 transition-all duration-200">
+                    
+                    <!-- Invoice Header -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start border-b-2 border-slate-900 pb-5 gap-5">
+                        <div class="space-y-1">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded bg-indigo-600 text-white text-[10px] font-extrabold uppercase tracking-wider">
+                                Statement of Account / Billing Invoice
+                            </span>
+                            <h1 id="prevTrainerName" class="text-2xl font-black text-slate-900 tracking-tight pt-1">Maria Clara Santos, LPT</h1>
+                            <p class="text-xs font-semibold text-indigo-700">Lead Competency Trainer • Virtual Assistant Services Level III</p>
+                            <p class="text-xs text-slate-500 pt-0.5">TIN: <span id="prevTin" class="font-mono font-medium text-slate-700">248-910-442-000</span> • <span id="prevContact" class="text-slate-600">mcsantos.trainer@email.com</span></p>
+                        </div>
+                        <div class="sm:text-right space-y-1">
+                            <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Invoice Number</div>
+                            <div id="prevInvoiceNumber" class="text-base font-extrabold font-mono text-slate-900 bg-slate-100 sm:bg-transparent px-2 sm:px-0 py-0.5 rounded sm:rounded-none inline-block">INV-20261123-01A</div>
+                            <div class="text-xs text-slate-600 pt-1">
+                                <span class="font-semibold text-slate-500">Date Issued:</span> <span id="prevInvoiceDate" class="font-medium">November 23, 2026</span>
+                            </div>
+                            <div class="text-xs text-slate-600">
+                                <span class="font-semibold text-slate-500">Batch Code:</span> <span id="prevBatchCode" class="font-mono font-bold text-slate-800">VA-L3-2026-B04</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Billed To & Schedule Summary -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 py-5 border-b border-slate-200">
+                        <div>
+                            <p class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">Billed To (Training Provider)</p>
+                            <p id="prevClientName" class="text-sm font-bold text-slate-900 leading-snug">Apex Digital Skills &amp; Tech Institute Inc.</p>
+                            <p id="prevClientAddress" class="text-xs text-slate-600 mt-1 leading-relaxed">4F TechHub Bldg., Commonwealth Ave., Quezon City, Metro Manila</p>
+                            <p class="text-xs text-slate-800 mt-2 font-medium"><span class="font-bold text-slate-500">Attention:</span> <span id="prevClientAttention">Engr. Roberto Reyes (Training Director)</span></p>
+                        </div>
+
+                        <div class="bg-slate-50/90 rounded-xl p-3.5 border border-slate-200/80">
+                            <p class="text-[10px] font-extrabold uppercase tracking-wider text-indigo-700 mb-1.5">Qualification &amp; Program Schedule</p>
+                            <p class="text-xs font-bold text-slate-900">Virtual Assistant Services Level III</p>
+                            <div class="mt-2 space-y-1 text-xs text-slate-600">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500">Duration:</span>
+                                    <span class="font-semibold text-slate-800">18 Training Days (54 Hours)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500">Billing Tranche:</span>
+                                    <span id="prevTrancheLabel" class="font-bold text-indigo-700">1st Half Billing (Days 1 – 9 of 18)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500">Covered Dates:</span>
+                                    <span id="prevCoveredDates" class="font-semibold text-slate-800">Nov 2 – Nov 12, 2026</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-500">Class Size:</span>
+                                    <span id="prevTraineeCount" class="font-semibold text-slate-800">25 Trainees</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 18-Day Visual Progress Bar -->
+                    <div class="py-4 border-b border-slate-200">
+                        <div class="flex items-center justify-between text-xs mb-2">
+                            <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                18-Day Training Progress
+                            </span>
+                            <span id="prevProgressText" class="font-bold text-indigo-700 text-[11px]">Tranche 1 of 2 • Days 1–9 Billed (50%)</span>
+                        </div>
+                        <div class="grid grid-cols-18 gap-1 h-3 rounded-full overflow-hidden bg-slate-100 p-0.5 border border-slate-200" id="dayBlocksContainer" style="display: grid; grid-template-columns: repeat(18, minmax(0, 1fr));"><div class="h-full rounded-sm bg-indigo-600 transition-colors duration-200" title="Day 1"></div><div class="h-full rounded-sm bg-indigo-600 transition-colors duration-200" title="Day 2"></div><div class="h-full rounded-sm bg-indigo-600 transition-colors duration-200" title="Day 3"></div><div class="h-full rounded-sm bg-indigo-600 transition-colors duration-200" title="Day 4"></div><div class="h-full rounded-sm bg-indigo-600 transition-colors duration-200" title="Day 5"></div><div class="h-full rounded-sm bg-indigo-600 transition-colors duration-200" title="Day 6"></div><div class="h-full rounded-sm bg-indigo-600 transition-colors duration-200" title="Day 7"></div><div class="h-full rounded-sm bg-indigo-600 transition-colors duration-200" title="Day 8"></div><div class="h-full rounded-sm bg-indigo-600 transition-colors duration-200" title="Day 9"></div><div class="h-full rounded-sm bg-slate-200 transition-colors duration-200" title="Day 10"></div><div class="h-full rounded-sm bg-slate-200 transition-colors duration-200" title="Day 11"></div><div class="h-full rounded-sm bg-slate-200 transition-colors duration-200" title="Day 12"></div><div class="h-full rounded-sm bg-slate-200 transition-colors duration-200" title="Day 13"></div><div class="h-full rounded-sm bg-slate-200 transition-colors duration-200" title="Day 14"></div><div class="h-full rounded-sm bg-slate-200 transition-colors duration-200" title="Day 15"></div><div class="h-full rounded-sm bg-slate-200 transition-colors duration-200" title="Day 16"></div><div class="h-full rounded-sm bg-slate-200 transition-colors duration-200" title="Day 17"></div><div class="h-full rounded-sm bg-slate-200 transition-colors duration-200" title="Day 18"></div></div>
+                        <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-medium">
+                            <span>Day 1 (Start)</span>
+                            <span>Day 9 (1st Half Cutoff)</span>
+                            <span>Day 18 (Completion)</span>
+                        </div>
+                    </div>
+
+                    <!-- Itemized Billing Table -->
+                    <div class="py-5">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b-2 border-slate-200 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
+                                    <th class="py-2.5 pr-3">Description of Training Services</th>
+                                    <th class="py-2.5 px-3 text-center">Qty / Days</th>
+                                    <th class="py-2.5 px-3 text-right">Unit Rate</th>
+                                    <th class="py-2.5 pl-3 text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prevLineItems" class="divide-y divide-slate-100 text-xs">
+                <tr>
+                    <td class="py-3 pr-3">
+                        <div class="font-bold text-slate-900">Lead Trainer Services — Virtual Assistant Services Level III</div>
+                        <div class="text-[11px] text-indigo-700 font-semibold mt-0.5">1st Half Billing (Days 1 – 9 of 18)</div>
+                        <div class="text-[10px] text-slate-500 mt-1 leading-relaxed">Covers Basic &amp; Common Competencies + Core Module 1: Administrative &amp; Productivity Tools, Email &amp; Calendar Management, File Architecture.</div>
+                    </td>
+                    <td class="py-3 px-3 text-center text-xs font-medium text-slate-700 align-top whitespace-nowrap">9 Days (72 hrs)</td>
+                    <td class="py-3 px-3 text-right text-xs font-mono text-slate-700 align-top">₱3,500.00</td>
+                    <td class="py-3 pl-3 text-right text-xs font-bold font-mono text-slate-900 align-top">₱31,500.00</td>
+                </tr>
+            <tr>
+                    <td class="py-2.5 pr-3">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="font-semibold text-slate-800">Zoom Pro Subscription (1 Month — Virtual Class Hosting)</span>
+                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">REIMBURSEMENT (TAX-FREE)</span>
+                        </div>
+                        <div class="text-[10px] text-slate-400 italic mt-0.5">Official Receipt / Subscription Ref #ZM-2026-8841 (Attached)</div>
+                    </td>
+                    <td class="py-2.5 px-3 text-center text-xs font-medium text-slate-700 align-top">1</td>
+                    <td class="py-2.5 px-3 text-right text-xs font-mono text-slate-700 align-top">₱950.00</td>
+                    <td class="py-2.5 pl-3 text-right text-xs font-bold font-mono text-slate-900 align-top">₱950.00</td>
+                
+                </tr><tr>
+                    <td class="py-2.5 pr-3">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="font-semibold text-slate-800">Internet &amp; Connectivity Allowance (1st Half - 9 Sessions)</span>
+                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-slate-100 text-slate-700 border border-slate-300">ALLOWANCE</span>
+                        </div>
+                        
+                    </td>
+                    <td class="py-2.5 px-3 text-center text-xs font-medium text-slate-700 align-top">1</td>
+                    <td class="py-2.5 px-3 text-right text-xs font-mono text-slate-700 align-top">₱1,500.00</td>
+                    <td class="py-2.5 pl-3 text-right text-xs font-bold font-mono text-slate-900 align-top">₱1,500.00</td>
+                
+                </tr></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Footer Totals & Payment Box -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start gap-6 pt-4 border-t border-slate-200">
+                        <div class="w-full sm:w-1/2 space-y-3">
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/90 flex items-start justify-between gap-3">
+                                <div class="flex-1">
+                                    <p class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Payment / Remittance Instructions</p>
+                                    <p id="prevPaymentDetails" class="text-xs text-slate-700 leading-relaxed whitespace-pre-line font-medium">Bank: BPI (Bank of the Philippine Islands) | Account Name: Maria Clara Santos | Account No.: 3089-1124-88 | GCash / InstaPay: 0917-555-0192</p>
+                                </div>
+                                <div id="prevQrContainer" class="shrink-0 flex flex-col items-center bg-white p-2 rounded-lg border border-slate-200 shadow-sm">
+                                    <img id="prevQrImage" src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'&gt;&lt;rect width='80' height='80' fill='%23ffffff'/&gt;&lt;rect x='8' y='8' width='24' height='24' fill='%230f172a'/&gt;&lt;rect x='12' y='12' width='16' height='16' fill='%23ffffff'/&gt;&lt;rect x='16' y='16' width='8' height='8' fill='%230f172a'/&gt;&lt;rect x='48' y='8' width='24' height='24' fill='%230f172a'/&gt;&lt;rect x='52' y='12' width='16' height='16' fill='%23ffffff'/&gt;&lt;rect x='56' y='16' width='8' height='8' fill='%230f172a'/&gt;&lt;rect x='8' y='48' width='24' height='24' fill='%230f172a'/&gt;&lt;rect x='12' y='52' width='16' height='16' fill='%23ffffff'/&gt;&lt;rect x='16' y='56' width='8' height='8' fill='%230f172a'/&gt;&lt;rect x='36' y='12' width='8' height='16' fill='%234f46e5'/&gt;&lt;rect x='36' y='36' width='8' height='8' fill='%230f172a'/&gt;&lt;rect x='48' y='40' width='16' height='8' fill='%234f46e5'/&gt;&lt;rect x='44' y='56' width='12' height='16' fill='%230f172a'/&gt;&lt;rect x='64' y='52' width='8' height='20' fill='%234f46e5'/&gt;&lt;/svg&gt;" alt="InstaPay QR Code" class="w-20 h-20 object-contain rounded">
+                                    <span class="text-[9px] font-extrabold uppercase tracking-wider text-indigo-700 mt-1">Scan via InstaPay</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-400 italic leading-relaxed">
+                                Attached supporting documents: Daily Attendance Sheet (DTR), Accomplished Competency Monitoring Log, Session Plan for Virtual Assistant Services Level III, and Official Receipts (OR/e-Receipt) for reimbursable items.
+                            </p>
+                        </div>
+
+                        <div class="w-full sm:w-5/12 space-y-2 text-xs">
+                            <div class="flex justify-between text-slate-600">
+                                <span>Taxable Training Fees:</span>
+                                <span id="prevTaxableSubtotal" class="font-bold text-slate-900 font-mono">₱33,000.00</span>
+                            </div>
+                            <div class="flex justify-between text-slate-600">
+                                <span id="prevTaxLabel">Less: Expanded Withholding Tax (10%):</span>
+                                <span id="prevTaxAmount" class="font-bold text-rose-600 font-mono">-₱3,300.00</span>
+                            </div>
+                            <div id="prevReimbursementRow" class="flex justify-between text-slate-600">
+                                <span>Add: Non-Taxable Reimbursements:</span>
+                                <span id="prevReimbursementTotal" class="font-bold text-emerald-700 font-mono">+₱950.00</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-3 border-t-2 border-slate-900 text-sm font-extrabold text-slate-900">
+                                <span class="tracking-tight text-slate-900">Net Amount Due:</span>
+                                <span id="prevNetTotal" class="text-xl font-black text-indigo-700 font-mono">₱30,650.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Signatories Footer -->
+                    <div class="grid grid-cols-2 gap-8 mt-10 pt-5 border-t border-slate-200">
+                        <div>
+                            <p class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-7">Submitted &amp; Certified Correct By:</p>
+                            <div class="border-b border-slate-400 w-4/5 mb-1.5"></div>
+                            <p id="sigTrainerName" class="text-xs font-bold text-slate-900">Maria Clara Santos, LPT</p>
+                            <p class="text-[10px] text-slate-500 font-medium">Lead Trainer, Virtual Assistant Services Level III</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-7">Verified &amp; Approved for Payment By:</p>
+                            <div class="border-b border-slate-400 w-4/5 mb-1.5"></div>
+                            <p id="sigClientName" class="text-xs font-bold text-slate-900">Engr. Roberto Reyes (Training Director)</p>
+                            <p class="text-[10px] text-slate-500 font-medium">Authorized Representative / School Administrator</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Application State
+        let currentTranche = 'first'; // 'first', 'second', 'full'
+        let invoiceSeq = 1;
+        let qrDataUrl = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' fill='%23ffffff'/><rect x='8' y='8' width='24' height='24' fill='%230f172a'/><rect x='12' y='12' width='16' height='16' fill='%23ffffff'/><rect x='16' y='16' width='8' height='8' fill='%230f172a'/><rect x='48' y='8' width='24' height='24' fill='%230f172a'/><rect x='52' y='12' width='16' height='16' fill='%23ffffff'/><rect x='56' y='16' width='8' height='8' fill='%230f172a'/><rect x='8' y='48' width='24' height='24' fill='%230f172a'/><rect x='12' y='52' width='16' height='16' fill='%23ffffff'/><rect x='16' y='56' width='8' height='8' fill='%230f172a'/><rect x='36' y='12' width='8' height='16' fill='%234f46e5'/><rect x='36' y='36' width='8' height='8' fill='%230f172a'/><rect x='48' y='40' width='16' height='8' fill='%234f46e5'/><rect x='44' y='56' width='12' height='16' fill='%230f172a'/><rect x='64' y='52' width='8' height='20' fill='%234f46e5'/></svg>";
+        
+        let extraItems = [
+            {
+                id: 1,
+                description: 'Zoom Pro Subscription (1 Month — Virtual Class Hosting)',
+                referenceNote: 'Official Receipt / Subscription Ref #ZM-2026-8841 (Attached)',
+                qty: 1,
+                rate: 950,
+                isReimbursement: true
+            },
+            {
+                id: 2,
+                description: 'Internet & Connectivity Allowance (1st Half - 9 Sessions)',
+                referenceNote: '',
+                qty: 1,
+                rate: 1500,
+                isReimbursement: false
+            }
+        ];
+
+        // Format Currency Helper
+        function formatMoney(amount) {
+            const currency = document.getElementById('currencySelect').value;
+            const symbol = currency === 'PHP' ? '₱' : '$';
+            return symbol + Number(amount).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Notification Helper
+        function showToast(msg) {
+            const banner = document.getElementById('toastBanner');
+            document.getElementById('toastMessage').textContent = msg;
+            banner.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                banner.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        function saveDraft() {
+            showToast('Draft invoice state saved to local browser cache.');
+        }
+
+        // Invoice Number Generation
+        function buildInvoiceNumber() {
+            const rawDate = document.getElementById('invoiceDate').value;
+            const datePart = rawDate ? rawDate.replace(/-/g, '') : '20261123';
+            const seqPart = String(invoiceSeq).padStart(2, '0');
+            const suffix = currentTranche === 'first' ? 'A' : (currentTranche === 'second' ? 'B' : '');
+            return `INV-${datePart}-${seqPart}${suffix}`;
+        }
+
+        function syncInvoiceNumberWithDate() {
+            invoiceSeq = 1;
+            document.getElementById('invoiceNumber').value = buildInvoiceNumber();
+            updateInvoice();
+        }
+
+        function incrementInvoiceSeq() {
+            invoiceSeq += 1;
+            document.getElementById('invoiceNumber').value = buildInvoiceNumber();
+            updateInvoice();
+            showToast(`Updated Invoice #: ${document.getElementById('invoiceNumber').value}`);
+        }
+
+        // InstaPay QR Code Upload
+        function handleQrUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                qrDataUrl = e.target.result;
+                renderQrPreview();
+                showToast('InstaPay QR Code updated!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadSampleQr() {
+            qrDataUrl = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><rect width='80' height='80' fill='%23ffffff'/><rect x='8' y='8' width='24' height='24' fill='%230f172a'/><rect x='12' y='12' width='16' height='16' fill='%23ffffff'/><rect x='16' y='16' width='8' height='8' fill='%230f172a'/><rect x='48' y='8' width='24' height='24' fill='%230f172a'/><rect x='52' y='12' width='16' height='16' fill='%23ffffff'/><rect x='56' y='16' width='8' height='8' fill='%230f172a'/><rect x='8' y='48' width='24' height='24' fill='%230f172a'/><rect x='12' y='52' width='16' height='16' fill='%23ffffff'/><rect x='16' y='56' width='8' height='8' fill='%230f172a'/><rect x='36' y='12' width='8' height='16' fill='%234f46e5'/><rect x='36' y='36' width='8' height='8' fill='%230f172a'/><rect x='48' y='40' width='16' height='8' fill='%234f46e5'/><rect x='44' y='56' width='12' height='16' fill='%230f172a'/><rect x='64' y='52' width='8' height='20' fill='%234f46e5'/></svg>";
+            renderQrPreview();
+            showToast('Loaded demo InstaPay QR pattern');
+        }
+
+        function clearQrCode() {
+            qrDataUrl = '';
+            document.getElementById('qrUploadInput').value = '';
+            renderQrPreview();
+            showToast('InstaPay QR Code removed');
+        }
+
+        function renderQrPreview() {
+            const container = document.getElementById('prevQrContainer');
+            const img = document.getElementById('prevQrImage');
+            const removeBtn = document.getElementById('removeQrBtn');
+            if (qrDataUrl) {
+                img.src = qrDataUrl;
+                container.classList.remove('hidden');
+                removeBtn.classList.remove('hidden');
+            } else {
+                img.src = '';
+                container.classList.add('hidden');
+                removeBtn.classList.add('hidden');
+            }
+        }
+
+        // Tranche Selector
+        function setTranche(tranche) {
+            currentTranche = tranche;
+            const invInput = document.getElementById('invoiceNumber');
+            const allowanceItem = extraItems.find(i => i.id === 2);
+
+            if (tranche === 'first') {
+                document.getElementById('daysRendered').value = 9;
+                document.getElementById('coveredDates').value = 'Nov 2 – Nov 12, 2026';
+                if (allowanceItem) {
+                    allowanceItem.description = 'Internet & Connectivity Allowance (1st Half - 9 Sessions)';
+                }
+            } else if (tranche === 'second') {
+                document.getElementById('daysRendered').value = 9;
+                document.getElementById('coveredDates').value = 'Nov 13 – Nov 24, 2026';
+                if (allowanceItem) {
+                    allowanceItem.description = 'Internet & Connectivity Allowance (2nd Half - 9 Sessions)';
+                }
+            } else {
+                document.getElementById('daysRendered').value = 18;
+                document.getElementById('coveredDates').value = 'Nov 2 – Nov 24, 2026';
+                if (allowanceItem) {
+                    allowanceItem.description = 'Internet & Connectivity Allowance (Full 18 Sessions)';
+                }
+            }
+
+            invInput.value = buildInvoiceNumber();
+            updateTrancheButtonsUI();
+            renderExtraItemsEditor();
+            updateInvoice();
+        }
+
+        function updateTrancheButtonsUI() {
+            const map = {
+                first: 'btnTranche1',
+                second: 'btnTranche2',
+                full: 'btnTrancheFull'
+            };
+            Object.keys(map).forEach(key => {
+                const btn = document.getElementById(map[key]);
+                if (key === currentTranche) {
+                    btn.className = 'tranche-btn p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50/70 text-left transition-all duration-150 flex flex-col justify-between shadow-sm';
+                    btn.querySelector('span:first-child').className = 'text-[10px] font-bold uppercase tracking-wider text-indigo-700';
+                    btn.querySelector('div span:last-child').className = 'w-2 h-2 rounded-full bg-indigo-600';
+                } else {
+                    btn.className = 'tranche-btn p-3 rounded-xl border-2 border-slate-200 bg-white hover:bg-slate-50 text-left transition-all duration-150 flex flex-col justify-between';
+                    btn.querySelector('span:first-child').className = 'text-[10px] font-bold uppercase tracking-wider text-slate-500';
+                    btn.querySelector('div span:last-child').className = 'w-2 h-2 rounded-full bg-slate-300';
+                }
+            });
+        }
+
+        function handleRateBasisChange() {
+            const basis = document.getElementById('rateBasis').value;
+            const rateInput = document.getElementById('rateAmount');
+            if (basis === 'hourly' && Number(rateInput.value) >= 1000) {
+                rateInput.value = 450;
+            } else if (basis === 'daily' && Number(rateInput.value) < 1000) {
+                rateInput.value = 3500;
+            }
+            updateInvoice();
+        }
+
+        // Line Items Management
+        function addExtraItem() {
+            extraItems.push({
+                id: Date.now(),
+                description: 'Custom Educational / Software Resource',
+                referenceNote: 'Official receipt attached',
+                qty: 1,
+                rate: 500,
+                isReimbursement: true
+            });
+            renderExtraItemsEditor();
+            updateInvoice();
+        }
+
+        function addPresetItem(description, qty, rate, isReimbursement) {
+            extraItems.push({
+                id: Date.now(),
+                description,
+                referenceNote: isReimbursement ? 'Official Receipt / Proof of Payment Attached' : '',
+                qty,
+                rate,
+                isReimbursement
+            });
+            renderExtraItemsEditor();
+            updateInvoice();
+            showToast(`Added: ${description}`);
+        }
+
+        function removeExtraItem(id) {
+            extraItems = extraItems.filter(item => item.id !== id);
+            renderExtraItemsEditor();
+            updateInvoice();
+        }
+
+        function updateExtraItem(id, field, value) {
+            const item = extraItems.find(i => i.id === id);
+            if (item) {
+                if (field === 'description' || field === 'referenceNote') {
+                    item[field] = value;
+                } else if (field === 'isReimbursement') {
+                    item[field] = Boolean(value);
+                } else {
+                    item[field] = parseFloat(value) || 0;
+                }
+                updateInvoice();
+            }
+        }
+
+        function renderExtraItemsEditor() {
+            const container = document.getElementById('extraItemsContainer');
+            container.innerHTML = '';
+            extraItems.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1.5';
+                row.innerHTML = `
+                    <div class="grid grid-cols-12 gap-1.5 items-center">
+                        <input type="text" value="${item.description}" oninput="updateExtraItem(${item.id}, 'description', this.value)" placeholder="Description" class="col-span-6 px-2 py-1 text-xs font-semibold bg-white border border-slate-300 rounded focus:ring-1 focus:ring-indigo-500 outline-none">
+                        <input type="number" value="${item.qty}" min="1" oninput="updateExtraItem(${item.id}, 'qty', this.value)" placeholder="Qty" class="col-span-2 px-1.5 py-1 text-xs bg-white border border-slate-300 rounded text-center outline-none">
+                        <input type="number" value="${item.rate}" min="0" oninput="updateExtraItem(${item.id}, 'rate', this.value)" placeholder="Rate" class="col-span-3 px-2 py-1 text-xs font-mono bg-white border border-slate-300 rounded text-right outline-none">
+                        <button type="button" onclick="removeExtraItem(${item.id})" class="col-span-1 text-rose-500 hover:text-rose-700 font-bold text-center text-sm" title="Remove">×</button>
+                    </div>
+                    <div class="flex items-center justify-between gap-2 pt-0.5">
+                        <input type="text" value="${item.referenceNote || ''}" oninput="updateExtraItem(${item.id}, 'referenceNote', this.value)" placeholder="Receipt ref # or proof note..." class="flex-1 px-2 py-0.5 text-[10px] bg-white border border-slate-200 rounded text-slate-600 outline-none">
+                        <label class="inline-flex items-center gap-1 text-[10px] font-bold text-slate-700 cursor-pointer select-none whitespace-nowrap">
+                            <input type="checkbox" ${item.isReimbursement ? 'checked' : ''} onchange="updateExtraItem(${item.id}, 'isReimbursement', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500">
+                            Reimb. (Tax-Free)
+                        </label>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // Render 18-Day Visual Bar
+        function renderDayBlocks() {
+            const container = document.getElementById('dayBlocksContainer');
+            container.innerHTML = '';
+            for (let d = 1; d <= 18; d++) {
+                const block = document.createElement('div');
+                let colorClass = 'bg-slate-200';
+                if (currentTranche === 'first' && d <= 9) {
+                    colorClass = 'bg-indigo-600';
+                } else if (currentTranche === 'second') {
+                    if (d <= 9) colorClass = 'bg-emerald-400';
+                    else colorClass = 'bg-indigo-600';
+                } else if (currentTranche === 'full') {
+                    colorClass = 'bg-indigo-600';
+                }
+                block.className = `h-full rounded-sm ${colorClass} transition-colors duration-200`;
+                block.title = `Day ${d}`;
+                container.appendChild(block);
+            }
+        }
+
+        // Master Invoice Update Function
+        function updateInvoice() {
+            const trainerName = document.getElementById('trainerName').value;
+            document.getElementById('prevTrainerName').textContent = trainerName;
+            document.getElementById('sigTrainerName').textContent = trainerName;
+            document.getElementById('prevTin').textContent = document.getElementById('trainerTin').value;
+            document.getElementById('prevContact').textContent = document.getElementById('trainerContact').value;
+
+            document.getElementById('prevInvoiceNumber').textContent = document.getElementById('invoiceNumber').value;
+
+            const batchNum = (document.getElementById('batchNumberInput').value || '').trim();
+            document.getElementById('prevBatchCode').textContent = `VA-L3-2026-B${batchNum}`;
+
+            document.getElementById('prevCoveredDates').textContent = document.getElementById('coveredDates').value;
+
+            const rawDate = document.getElementById('invoiceDate').value;
+            if (rawDate) {
+                const formattedDate = new Date(rawDate + 'T00:00:00').toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                document.getElementById('prevInvoiceDate').textContent = formattedDate;
+            }
+
+            document.getElementById('prevClientName').textContent = document.getElementById('clientName').value;
+            document.getElementById('prevClientAddress').textContent = document.getElementById('clientAddress').value;
+            const attn = document.getElementById('clientAttention').value;
+            document.getElementById('prevClientAttention').textContent = attn;
+            document.getElementById('sigClientName').textContent = attn;
+            document.getElementById('prevTraineeCount').textContent = document.getElementById('traineeCount').value + ' Trainees';
+            document.getElementById('prevPaymentDetails').textContent = document.getElementById('paymentDetails').value;
+
+            // Tranche Labels & Competency Coverage Details
+            let trancheTitle = '';
+            let competencyNote = '';
+            let progressText = '';
+            const badge = document.getElementById('trancheBadgePreview');
+
+            if (currentTranche === 'first') {
+                trancheTitle = '1st Half Billing (Days 1 – 9 of 18)';
+                competencyNote = 'Covers Basic & Common Competencies + Core Module 1: Administrative & Productivity Tools, Email & Calendar Management, File Architecture.';
+                progressText = 'Tranche 1 of 2 • Days 1–9 Billed (50%)';
+                badge.textContent = '1st Half (Days 1–9)';
+                badge.className = 'text-xs font-bold px-3 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200';
+            } else if (currentTranche === 'second') {
+                trancheTitle = '2nd Half Billing (Days 10 – 18 of 18)';
+                competencyNote = 'Covers Core Modules 2 & 3: CRM Systems, Social Media & Content Operations, Bookkeeping Basics, Mock Assessment & Evaluation.';
+                progressText = 'Tranche 2 of 2 • Days 10–18 Billed (Final 50%)';
+                badge.textContent = '2nd Half (Days 10–18)';
+                badge.className = 'text-xs font-bold px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
+            } else {
+                trancheTitle = 'Full Term Billing (Days 1 – 18 of 18)';
+                competencyNote = 'Complete 144-Hour Delivery of Virtual Assistant Services Level III (Basic, Common, and all Core Competencies with Final Assessment).';
+                progressText = 'Full Term • Days 1–18 (100% of 18-Day Program)';
+                badge.textContent = 'Full Term (Days 1–18)';
+                badge.className = 'text-xs font-bold px-3 py-0.5 rounded-full bg-indigo-600 text-white';
+            }
+
+            document.getElementById('prevTrancheLabel').textContent = trancheTitle;
+            document.getElementById('prevProgressText').textContent = progressText;
+            renderDayBlocks();
+
+            // Calculate Main Training Fee
+            const rateBasis = document.getElementById('rateBasis').value;
+            const rateAmount = parseFloat(document.getElementById('rateAmount').value) || 0;
+            const daysRendered = parseFloat(document.getElementById('daysRendered').value) || 0;
+
+            let qtyDisplay = '';
+            let mainTotal = 0;
+
+            if (rateBasis === 'daily') {
+                qtyDisplay = `${daysRendered} ${daysRendered === 1 ? 'Day' : 'Days'} (${daysRendered * 8} hrs)`;
+                mainTotal = daysRendered * rateAmount;
+            } else {
+                const totalHours = daysRendered * 8;
+                qtyDisplay = `${totalHours} Hrs (${daysRendered} days)`;
+                mainTotal = totalHours * rateAmount;
+            }
+
+            // Populate Table
+            const tbody = document.getElementById('prevLineItems');
+            tbody.innerHTML = `
+                <tr>
+                    <td class="py-3 pr-3">
+                        <div class="font-bold text-slate-900">Lead Trainer Services — Virtual Assistant Services Level III</div>
+                        <div class="text-[11px] text-indigo-700 font-semibold mt-0.5">${trancheTitle}</div>
+                        <div class="text-[10px] text-slate-500 mt-1 leading-relaxed">${competencyNote}</div>
+                    </td>
+                    <td class="py-3 px-3 text-center text-xs font-medium text-slate-700 align-top whitespace-nowrap">${qtyDisplay}</td>
+                    <td class="py-3 px-3 text-right text-xs font-mono text-slate-700 align-top">${formatMoney(rateAmount)}</td>
+                    <td class="py-3 pl-3 text-right text-xs font-bold font-mono text-slate-900 align-top">${formatMoney(mainTotal)}</td>
+                </tr>
+            `;
+
+            // Process Extra Items (Reimbursements vs Taxable Allowances)
+            let extraTaxableTotal = 0;
+            let reimbursementTotal = 0;
+
+            extraItems.forEach(item => {
+                const lineTotal = item.qty * item.rate;
+                if (item.isReimbursement) {
+                    reimbursementTotal += lineTotal;
+                } else {
+                    extraTaxableTotal += lineTotal;
+                }
+
+                const badgeHtml = item.isReimbursement
+                    ? `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">REIMBURSEMENT (TAX-FREE)</span>`
+                    : `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-slate-100 text-slate-700 border border-slate-300">ALLOWANCE</span>`;
+
+                const refHtml = item.referenceNote
+                    ? `<div class="text-[10px] text-slate-400 italic mt-0.5">${item.referenceNote}</div>`
+                    : '';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="py-2.5 pr-3">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="font-semibold text-slate-800">${item.description}</span>
+                            ${badgeHtml}
+                        </div>
+                        ${refHtml}
+                    </td>
+                    <td class="py-2.5 px-3 text-center text-xs font-medium text-slate-700 align-top">${item.qty}</td>
+                    <td class="py-2.5 px-3 text-right text-xs font-mono text-slate-700 align-top">${formatMoney(item.rate)}</td>
+                    <td class="py-2.5 pl-3 text-right text-xs font-bold font-mono text-slate-900 align-top">${formatMoney(lineTotal)}</td>
+                </tr>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Calculate Subtotals & Withholding Tax
+            const taxableSubtotal = mainTotal + extraTaxableTotal;
+            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+            const taxAmount = taxableSubtotal * taxRate;
+            const netTotal = (taxableSubtotal - taxAmount) + reimbursementTotal;
+
+            // Update Preview Numbers
+            document.getElementById('prevTaxableSubtotal').textContent = formatMoney(taxableSubtotal);
+            const taxPercent = (taxRate * 100).toFixed(0);
+            document.getElementById('prevTaxLabel').textContent = `Less: Expanded Withholding Tax (${taxPercent}%):`;
+            document.getElementById('prevTaxAmount').textContent = `-${formatMoney(taxAmount)}`;
+
+            const reimbRow = document.getElementById('prevReimbursementRow');
+            if (reimbursementTotal > 0) {
+                reimbRow.classList.remove('hidden');
+                document.getElementById('prevReimbursementTotal').textContent = `+${formatMoney(reimbursementTotal)}`;
+            } else {
+                reimbRow.classList.add('hidden');
+            }
+
+            document.getElementById('prevNetTotal').textContent = formatMoney(netTotal);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const dateInputEl = document.getElementById('invoiceDate');
+            dateInputEl.value = '2026-11-23';
+            updateTrancheButtonsUI();
+            renderExtraItemsEditor();
+            renderQrPreview();
+            updateInvoice();
+        });
+    </script>
+
+
+
+<script>
+window.DAILY_HOURS = 3;
+if (typeof updateInvoice === 'function') {
+    const origUpdateInvoice = updateInvoice;
+    updateInvoice = function() {
+        origUpdateInvoice();
+        const qtyCell = document.querySelector('#prevLineItems tr:first-child td:nth-child(2)');
+        if (qtyCell) {
+            const days = parseFloat(document.getElementById('daysRendered').value) || 0;
+            const basis = document.getElementById('rateBasis').value;
+            if (basis === 'daily') {
+                qtyCell.textContent = days + (days === 1 ? ' Day' : ' Days') + ' (' + (days * 3) + ' hrs)';
+            } else {
+                qtyCell.textContent = (days * 3) + ' Hrs (' + days + ' days)';
+            }
+        }
+    };
+    updateInvoice();
+}
+</script></body></html>
